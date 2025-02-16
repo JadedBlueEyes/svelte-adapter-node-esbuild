@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"target": "es2020",
+		"module": "Node16",
+		"moduleResolution": "node16",
+		"strict": true,
+		"esModuleInterop": true,
+		"noImplicitAny": true,
+		"allowJs": true,
+		"noEmit": true,
+		"resolveJsonModule": true,
+		"allowSyntheticDefaultImports": true
+	},
+	"include": ["src/**/*", "server/**/*"]
+}
