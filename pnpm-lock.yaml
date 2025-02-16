@@ -16,7 +16,10 @@ importers:
         version: 0.25.0
       esbuild-plugin-asset-import-meta-url:
         specifier: ^0.1.3
-        version: link:../esbuild-plugin-asset-import-meta-url
+        version: 0.1.4
+      polka:
+        specifier: 1.0.0-next.28
+        version: 1.0.0-next.28
     devDependencies:
       '@biomejs/biome':
         specifier: 1.9.4
@@ -39,9 +42,6 @@ importers:
       '@types/node':
         specifier: ^20.17.19
         version: 20.17.19
-      polka:
-        specifier: 1.0.0-next.28
-        version: 1.0.0-next.28
       rollup:
         specifier: ^4.34.7
         version: 4.34.7
@@ -809,6 +809,9 @@ packages:
   devalue@5.1.1:
     resolution: {integrity: sha512-maua5KUiapvEwiEAe+XnlZ3Rh0GD+qI1J/nb9vrJc3muPXvcF/8gXYTWF76+5DAqHyDUtOIImEuo0YKE9mshVw==}
 
+  esbuild-plugin-asset-import-meta-url@0.1.4:
+    resolution: {integrity: sha512-ILAsid0ycyikZ4B0qAaIoGBCIcq4BbomM7nUxBGF3BT9Co3Jujs+Br70txUpuzBELViYnOV4oN9x/g4mMaWuuQ==}
+
   esbuild@0.21.5:
     resolution: {integrity: sha512-mg3OPMV4hXywwpoDxu3Qda5xCKQi+vCTZq8S9J/EpkhB2HzKXq4SNFZE3+NK93JYxc8VMSep+lOUSC/RVKaBqw==}
     engines: {node: '>=12'}
@@ -1525,6 +1528,11 @@ snapshots:
   deepmerge@4.3.1: {}
 
   devalue@5.1.1: {}
+
+  esbuild-plugin-asset-import-meta-url@0.1.4:
+    dependencies:
+      esbuild: 0.25.0
+      magic-string: 0.30.17
 
   esbuild@0.21.5:
     optionalDependencies:
