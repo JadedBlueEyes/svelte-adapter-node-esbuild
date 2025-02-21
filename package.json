@@ -2,7 +2,6 @@
     "name": "svelte-adapter-node-esbuild",
     "version": "0.1.0",
     "description": "Import files as node Buffers",
-    "type": "module",
     "main": "dist/index.esm.js",
     "exports": {
         "import": "./dist/index.esm.js",
