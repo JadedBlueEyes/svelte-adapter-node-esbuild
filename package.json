@@ -1,6 +1,6 @@
 {
     "name": "svelte-adapter-node-esbuild",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "SvelteKit adapter using esbuild",
     "main": "dist/index.esm.js",
     "exports": {
@@ -17,7 +17,13 @@
         "lint": "biome lint --write src",
         "format": "biome format --write src"
     },
-    "keywords": ["svelte", "sveltekit", "adapter", "esbuild", "node"],
+    "keywords": [
+        "svelte",
+        "sveltekit",
+        "adapter",
+        "esbuild",
+        "node"
+    ],
     "author": "Jade Ellis",
     "license": "MIT",
     "devDependencies": {
