@@ -12,11 +12,8 @@ const external = (id) =>
 	isBuiltin(id) || pkg.dependencies[id] || pkg.peerDependencies[id];
 
 const replacedModules = new Set([
-	"ENV",
-	"HANDLER",
 	"MANIFEST",
 	"SERVER",
-	"SHIMS",
 ]);
 
 const externalRuntimeComponent = (id) =>
@@ -55,12 +52,19 @@ export default [
 	},
 	// server components
 	{
-		input: "server/index.ts",
+		input: ["server/index.ts", "server/env.ts", "server/handler.ts", "server/shims.ts"],
 		output: {
-			file: "files/index.js",
+			dir: "files",
 			format: "esm",
 			sourcemap: true,
+			paths: {
+				"MANIFEST": "./server/manifest.js",
+				"SERVER": "./server/index.js",
+			},
+			chunkFileNames: "chunk-[name]-[hash].js",
+			// preserveModules: true,
 		},
+		preserveEntrySignatures: "strict",
 		plugins: [
 			nodeResolve({ preferBuiltins: true }),
 			commonjs(),
@@ -69,49 +73,5 @@ export default [
 			typescript(serverTypescriptOptions),
 		],
 		external: externalRuntimeComponent,
-	},
-	{
-		input: "server/env.ts",
-		output: {
-			file: "files/env.js",
-			format: "esm",
-			sourcemap: true,
-		},
-		plugins: [
-			nodeResolve(),
-			commonjs(),
-			json(),
-			prefixBuiltinModules(),
-			typescript(serverTypescriptOptions),
-		],
-		external: externalRuntimeComponent,
-	},
-	{
-		input: "server/handler.ts",
-		output: {
-			file: "files/handler.js",
-			format: "esm",
-			inlineDynamicImports: true,
-			sourcemap: true,
-		},
-		plugins: [
-			nodeResolve(),
-			commonjs(),
-			json(),
-			prefixBuiltinModules(),
-			typescript(serverTypescriptOptions),
-		],
-		external: externalRuntimeComponent,
-	},
-	{
-		input: "server/shims.ts",
-		output: {
-			file: "files/shims.js",
-			format: "esm",
-			sourcemap: true,
-		},
-		plugins: [nodeResolve(), commonjs(), prefixBuiltinModules(),
-		typescript(serverTypescriptOptions)],
-		external: externalRuntimeComponent,
-	},
+	}
 ];

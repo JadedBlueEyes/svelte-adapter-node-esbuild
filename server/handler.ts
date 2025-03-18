@@ -1,4 +1,4 @@
-import "SHIMS";
+import "./shims";
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
@@ -12,7 +12,7 @@ import {
 import sirv from "sirv";
 
 import type { IncomingHttpHeaders } from "node:http";
-import { env } from "ENV";
+import { env } from "./env";
 import { base, manifest, prerendered } from "MANIFEST";
 import { Server } from "SERVER";
 import type { Middleware } from "polka";
@@ -45,7 +45,7 @@ const body_size_limit = parse_body_size_limit(env("BODY_SIZE_LIMIT", "512K"));
 
 if (Number.isNaN(body_size_limit)) {
 	throw new Error(
-		`Invalid BODY_SIZE_LIMIT: '${env("BODY_SIZE_LIMIT")}'. Please provide a numeric value.`,
+		`Invalid BODY_SIZE_LIMIT: '${env("BODY_SIZE_LIMIT", null)}'. Please provide a numeric value.`,
 	);
 }
 

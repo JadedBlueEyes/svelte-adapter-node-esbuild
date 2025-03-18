@@ -1,7 +1,7 @@
 import type { IncomingMessage } from "node:http";
 import process from "node:process";
-import { env } from "ENV";
-import { handler } from "HANDLER";
+import { env } from "./env";
+import { handler } from "./handler";
 import polka from "polka";
 
 export const path: string | false = env("SOCKET_PATH", false);

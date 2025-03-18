@@ -1,4 +1,4 @@
-import { cp, mkdir, readFile, writeFile } from "node:fs/promises";
+import { cp, mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import type { Adapter } from "@sveltejs/kit";
 import { type BuildOptions, build } from "esbuild";
@@ -66,9 +66,10 @@ export default function (opts: AdapterOptions = {}): Adapter {
 
 			builder.log.minor("Building server");
 			const serverDir = builder.getServerDirectory();
-			await cp(serverDir, tmp, { recursive: true });
+			builder.mkdirp(`${tmp}/server`);
+			await cp(serverDir, `${tmp}/server`, { recursive: true });
 			await writeFile(
-				`${tmp}/manifest.js`,
+				`${tmp}/server/manifest.js`,
 				[
 					`export const manifest = ${builder.generateManifest({ relativePath: "./" })};`,
 					`export const prerendered = new Set(${JSON.stringify(builder.prerendered.paths)});`,
@@ -76,8 +77,11 @@ export default function (opts: AdapterOptions = {}): Adapter {
 				].join("\n\n"),
 			);
 
-			const pkg = JSON.parse(await readFile("package.json", "utf8"));
+			builder.copy(files, tmp, {});
+
 			await mkdir(`${out}/server`);
+			await mkdir(`${out}/server/assets`);
+
 			await build({
 				format: "esm",
 				platform: "node",
@@ -86,12 +90,18 @@ export default function (opts: AdapterOptions = {}): Adapter {
 				splitting: true,
 				sourcemap: true,
 				...opts.esbuild,
-				entryPoints: {
-					index: `${tmp}/index.js`,
-					manifest: `${tmp}/manifest.js`,
-				},
-				outdir: `${out}/server`,
-				plugins: [assetImportMetaUrl(), ...(opts.esbuild?.plugins || [])],
+				chunkNames: "server/chunks/[name]-[hash]",
+				outbase: tmp,
+				entryPoints: [
+					`${tmp}/server/index.js`,
+					`${tmp}/server/manifest.js`,
+					...(await readdir(tmp)).filter(file => file.endsWith(".js") && !file.startsWith("chunk-")).map(file => `${tmp}/${file}`),
+				],
+				outdir: `${out}`,
+				assetNames: "server/assets/[name]-[hash]",
+				plugins: [assetImportMetaUrl({
+					fileName: "server/assets/[name].[extname]",
+				}), ...(opts.esbuild?.plugins || [])],
 				banner: {
 					...opts.esbuild?.banner,
 					js: ESM_REQUIRE_SHIM + (opts.esbuild?.banner?.js || ""),
@@ -101,16 +111,15 @@ export default function (opts: AdapterOptions = {}): Adapter {
 					...opts.esbuild?.loader,
 				},
 			});
-			builder.copy(files, out, {
-				replace: {
-					ENV: "./env.js",
-					HANDLER: "./handler.js",
-					MANIFEST: "./server/manifest.js",
-					SERVER: "./server/index.js",
-					SHIMS: "./shims.js",
-					ENV_PREFIX: JSON.stringify(envPrefix),
-				},
-			});
+			// For some reason this wasin't working, so we're doing it manually instead
+			// builder.copy(tmp, out, {
+			// 	filter: (path) => path.endsWith(".d.ts"),
+			// }));
+			await (readdir(files).then(fileNames => {
+				for (const file of fileNames.filter(file => file.endsWith(".d.ts"))) {
+					builder.copy(`${files}/${file}`, `${out}/${file}`);
+				};
+			}));
 		},
 
 		supports: {

@@ -10,10 +10,4 @@ declare module "MANIFEST" {
 	export const base: string;
 }
 
-declare module "ENV" {
-	export { env, expected } from "./env.ts";
-}
-declare module "HANDLER" {
-	export { handler } from "./handler.ts";
-}
 declare module "@polka/url";
