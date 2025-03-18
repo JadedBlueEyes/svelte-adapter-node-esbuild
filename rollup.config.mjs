@@ -1,7 +1,6 @@
 import { isBuiltin } from "node:module";
 // rollup.config.js
 import typescript from "@rollup/plugin-typescript";
-import { dts } from "rollup-plugin-dts";
 import pkg from "./package.json" with { type: "json" };
 
 import { builtinModules } from "node:module";
@@ -35,6 +34,15 @@ function prefixBuiltinModules() {
 	};
 }
 
+/**
+ * @type {import('@rollup/plugin-typescript').RollupTypescriptOptions}
+ */
+const serverTypescriptOptions = {
+	tsconfig: "./tsconfig.server.json",
+	declaration: true,
+	declarationDir: "./files",
+};
+
 export default [
 	{
 		input: "src/index.ts",
@@ -42,13 +50,7 @@ export default [
 			{ file: pkg.exports.require, format: "cjs", sourcemap: true },
 			{ file: pkg.exports.import, format: "es", sourcemap: true },
 		],
-		plugins: [typescript()],
-		external,
-	},
-	{
-		input: "src/index.ts",
-		output: [{ file: pkg.exports.types, format: "es" }],
-		plugins: [dts()],
+		plugins: [typescript({ declarationDir: "./dist", declaration: true, })],
 		external,
 	},
 	// server components
@@ -64,19 +66,7 @@ export default [
 			commonjs(),
 			json(),
 			prefixBuiltinModules(),
-			typescript({ tsconfig: "./tsconfig.server.json" }),
-		],
-		external: externalRuntimeComponent,
-	},
-	{
-		input: "server/index.ts",
-		output: [{ file: "files/index.d.ts", format: "es" }],
-		plugins: [
-			nodeResolve({ preferBuiltins: true }),
-			commonjs(),
-			json(),
-			prefixBuiltinModules(),
-			dts({ tsconfig: "./tsconfig.server.json" }),
+			typescript(serverTypescriptOptions),
 		],
 		external: externalRuntimeComponent,
 	},
@@ -92,7 +82,7 @@ export default [
 			commonjs(),
 			json(),
 			prefixBuiltinModules(),
-			typescript({ tsconfig: "./tsconfig.server.json" }),
+			typescript(serverTypescriptOptions),
 		],
 		external: externalRuntimeComponent,
 	},
@@ -109,7 +99,7 @@ export default [
 			commonjs(),
 			json(),
 			prefixBuiltinModules(),
-			typescript({ tsconfig: "./tsconfig.server.json" }),
+			typescript(serverTypescriptOptions),
 		],
 		external: externalRuntimeComponent,
 	},
@@ -121,7 +111,7 @@ export default [
 			sourcemap: true,
 		},
 		plugins: [nodeResolve(), commonjs(), prefixBuiltinModules(),
-		typescript({ tsconfig: "./tsconfig.server.json" })],
+		typescript(serverTypescriptOptions)],
 		external: externalRuntimeComponent,
 	},
 ];
