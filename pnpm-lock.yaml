@@ -15,8 +15,8 @@ importers:
         specifier: ^0.25.0
         version: 0.25.0
       esbuild-plugin-asset-import-meta-url:
-        specifier: ^0.1.6
-        version: 0.1.6
+        specifier: ^0.2.1
+        version: 0.2.1
       polka:
         specifier: 1.0.0-next.28
         version: 1.0.0-next.28
@@ -670,8 +670,8 @@ packages:
   devalue@5.1.1:
     resolution: {integrity: sha512-maua5KUiapvEwiEAe+XnlZ3Rh0GD+qI1J/nb9vrJc3muPXvcF/8gXYTWF76+5DAqHyDUtOIImEuo0YKE9mshVw==}
 
-  esbuild-plugin-asset-import-meta-url@0.1.6:
-    resolution: {integrity: sha512-rzm5z4ks6OjLjftyZGYl3pXfb4zoQjigxUYz9lkQfYyK/j1cbPy9/r8Q7Z9Ml5S4fZNK7TGs6fQ/ryJlnfPPWQ==}
+  esbuild-plugin-asset-import-meta-url@0.2.1:
+    resolution: {integrity: sha512-wjZg/CvlzXVQilayKalQZyreBaeQDGXkakH0goVaQNWUrHmq8X6uDGml+uaWIPF53574jTIQhwBAxljvK6b3jw==}
 
   esbuild@0.24.2:
     resolution: {integrity: sha512-+9egpBW8I3CD5XPe0n6BfT5fxLzxrlDzqydF3aviG+9ni1lDC/OvMHcxqEFV0+LANZG5R1bFMWfUrjVsdwxJvA==}
@@ -1276,7 +1276,7 @@ snapshots:
 
   devalue@5.1.1: {}
 
-  esbuild-plugin-asset-import-meta-url@0.1.6:
+  esbuild-plugin-asset-import-meta-url@0.2.1:
     dependencies:
       esbuild: 0.25.0
       magic-string: 0.30.17

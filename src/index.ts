@@ -105,7 +105,8 @@ export default function (opts: AdapterOptions = {}): Adapter {
 				assetNames: "server/assets/[name]-[hash]",
 				plugins: [
 					assetImportMetaUrl({
-						fileName: "server/assets/[name].[extname]",
+						fileName: "server/assets/[name]",
+						resolveDir: "server/chunks",
 					}),
 					...(opts.esbuild?.plugins || []),
 				],
