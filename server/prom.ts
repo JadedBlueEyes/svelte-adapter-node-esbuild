@@ -4,7 +4,8 @@ import { env } from "./env";
 
 let localRegister: typeof register;
 import("prom-client")
-	.then(({ collectDefaultMetrics, register }) => {
+	.then((mod) => {
+		const { collectDefaultMetrics, register } = mod.default;
 		localRegister = register;
 		collectDefaultMetrics();
 	})
