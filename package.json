@@ -14,8 +14,8 @@
         "prepublishOnly": "rollup -c",
         "dev": "rollup -c -w",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "lint": "biome lint --write src",
-        "format": "biome format --write src"
+        "lint": "biome lint --write src server",
+        "format": "biome format --write src server"
     },
     "keywords": [
         "svelte",
