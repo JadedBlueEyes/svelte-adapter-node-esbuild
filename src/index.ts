@@ -95,13 +95,20 @@ export default function (opts: AdapterOptions = {}): Adapter {
 				entryPoints: [
 					`${tmp}/server/index.js`,
 					`${tmp}/server/manifest.js`,
-					...(await readdir(tmp)).filter(file => file.endsWith(".js") && !file.startsWith("chunk-")).map(file => `${tmp}/${file}`),
+					...(await readdir(tmp))
+						.filter(
+							(file) => file.endsWith(".js") && !file.startsWith("chunk-"),
+						)
+						.map((file) => `${tmp}/${file}`),
 				],
 				outdir: `${out}`,
 				assetNames: "server/assets/[name]-[hash]",
-				plugins: [assetImportMetaUrl({
-					fileName: "server/assets/[name].[extname]",
-				}), ...(opts.esbuild?.plugins || [])],
+				plugins: [
+					assetImportMetaUrl({
+						fileName: "server/assets/[name].[extname]",
+					}),
+					...(opts.esbuild?.plugins || []),
+				],
 				banner: {
 					...opts.esbuild?.banner,
 					js: ESM_REQUIRE_SHIM + (opts.esbuild?.banner?.js || ""),
@@ -115,11 +122,11 @@ export default function (opts: AdapterOptions = {}): Adapter {
 			// builder.copy(tmp, out, {
 			// 	filter: (path) => path.endsWith(".d.ts"),
 			// }));
-			await (readdir(files).then(fileNames => {
-				for (const file of fileNames.filter(file => file.endsWith(".d.ts"))) {
+			await readdir(files).then((fileNames) => {
+				for (const file of fileNames.filter((file) => file.endsWith(".d.ts"))) {
 					builder.copy(`${files}/${file}`, `${out}/${file}`);
-				};
-			}));
+				}
+			});
 		},
 
 		supports: {
