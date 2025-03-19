@@ -25,3 +25,16 @@ export function env<T>(name: string, fallback: T): string | T {
 		? process.env[prefixed]
 		: fallback;
 }
+
+export function env_map(name: string): { [key: string]: string } {
+	const prefixed = ENV_PREFIX + name;
+	const val: { [key: string]: string } = {};
+	for (const key of Object.keys(process.env).filter((key) =>
+		key.startsWith(prefixed),
+	)) {
+		if (process.env[key] !== undefined) {
+			val[key.slice(prefixed.length)] = process.env[key];
+		}
+	}
+	return val;
+}

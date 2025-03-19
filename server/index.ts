@@ -10,7 +10,7 @@ export const host: string = env("HOST", "0.0.0.0");
 export const port: string | false = env("PORT", !path && "3000");
 
 export const metrics_path: string | false = env("METRICS_PATH", false);
-export { prefix as metrics_prexix, job as metrics_job } from "./prom";
+export { prefix as metrics_prexix, labels as metrics_labels } from "./prom";
 
 const shutdown_timeout = Number.parseInt(env("SHUTDOWN_TIMEOUT", "30"));
 const idle_timeout = Number.parseInt(env("IDLE_TIMEOUT", "0"));
