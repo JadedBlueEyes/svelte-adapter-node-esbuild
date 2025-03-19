@@ -1,6 +1,6 @@
 {
     "name": "svelte-adapter-node-esbuild",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "description": "SvelteKit adapter using esbuild",
     "main": "dist/index.esm.js",
     "exports": {
