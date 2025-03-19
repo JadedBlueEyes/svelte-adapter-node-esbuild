@@ -28,6 +28,8 @@ type AdapterOptions = {
 You can customize various aspects of the server at runtime by modifying the environment variables:
 
 - `METRICS_PATH`: Path for the Prometheus metrics endpoint. If not provided, metrics will not be exposed.
+- `METRICS_PREFIX`: Prefix for Prometheus metrics.
+- `METRICS_JOB`: Job name for Prometheus metrics. Defaults to the `ORIGIN` environment variable.
 - `SOCKET_PATH`: Path for the Unix domain socket. If not provided, an HTTP server will be used.
 - `HOST`: The host address (default is `0.0.0.0`).
 - `PORT`: The port number to listen on (only relevant if no `SOCKET_PATH` is set).

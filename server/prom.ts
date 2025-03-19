@@ -2,12 +2,18 @@ import type { register } from "prom-client";
 import type { Middleware, Request } from "polka";
 import { env } from "./env";
 
+export const prefix: string | undefined = env("METRICS_PREFIX", undefined);
+export const job: string | undefined = env(
+	"METRICS_JOB",
+	env("ORIGIN", undefined),
+);
+
 let localRegister: typeof register;
 import("prom-client")
 	.then((mod) => {
 		const { collectDefaultMetrics, register } = mod.default;
 		localRegister = register;
-		collectDefaultMetrics();
+		collectDefaultMetrics({ prefix, labels: { job } });
 	})
 	.catch((error) => {
 		if (env("METRICS_PATH", false)) {
