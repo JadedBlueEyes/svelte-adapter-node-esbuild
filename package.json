@@ -55,7 +55,7 @@
     "homepage": "https://github.com/JadedBlueEyes/svelte-adapter-node-esbuild#readme",
     "dependencies": {
         "esbuild": "^0.25.0",
-        "esbuild-plugin-asset-import-meta-url": "^0.2.1",
+        "esbuild-plugin-asset-import-meta-url": "^0.2.2",
         "polka": "1.0.0-next.28"
     },
     "peerDependencies": {
