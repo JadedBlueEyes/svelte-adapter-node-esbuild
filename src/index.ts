@@ -109,6 +109,9 @@ export default function (opts: AdapterOptions = {}): Adapter {
 					}),
 					...(opts.esbuild?.plugins || []),
 				],
+				define: {
+					ENV_PREFIX: JSON.stringify(envPrefix),
+				},
 				banner: {
 					...opts.esbuild?.banner,
 					js: ESM_REQUIRE_SHIM + (opts.esbuild?.banner?.js || ""),
