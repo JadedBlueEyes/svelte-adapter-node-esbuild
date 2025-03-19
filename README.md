@@ -4,6 +4,7 @@
 
 This SvelteKit adapter allows you to run your SvelteKit application using Node.js with the ESBuild bundler.
 It handles cases such as server assets and node native modules more gracefully than the original `@svelte/adapter-node`.
+Additionally, it optionally supports Prometheus metrics, if enabled by installing the `prom-client` peer dependency and setting the `METRICS_PATH` environment variable.
 
 ## Options
 
@@ -26,6 +27,7 @@ type AdapterOptions = {
 
 You can customize various aspects of the server at runtime by modifying the environment variables:
 
+- `METRICS_PATH`: Path for the Prometheus metrics endpoint. If not provided, metrics will not be exposed.
 - `SOCKET_PATH`: Path for the Unix domain socket. If not provided, an HTTP server will be used.
 - `HOST`: The host address (default is `0.0.0.0`).
 - `PORT`: The port number to listen on (only relevant if no `SOCKET_PATH` is set).

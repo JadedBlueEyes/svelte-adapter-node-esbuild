@@ -3,10 +3,13 @@ import process from "node:process";
 import { env } from "./env";
 import { handler } from "./handler";
 import polka from "polka";
+import { metrics } from "./prom";
 
 export const path: string | false = env("SOCKET_PATH", false);
 export const host: string = env("HOST", "0.0.0.0");
 export const port: string | false = env("PORT", !path && "3000");
+
+export const metrics_path: string | false = env("METRICS_PATH", false);
 
 const shutdown_timeout = Number.parseInt(env("SHUTDOWN_TIMEOUT", "30"));
 const idle_timeout = Number.parseInt(env("IDLE_TIMEOUT", "0"));
@@ -33,7 +36,12 @@ let requests = 0;
 let shutdown_timeout_id: NodeJS.Timeout | void;
 let idle_timeout_id: NodeJS.Timeout | void;
 
-const server = polka().use(handler);
+let server = polka();
+
+if (metrics_path) {
+	server = server.get(metrics_path, metrics);
+}
+server = server.use(handler);
 
 if (socket_activation) {
 	server.listen({ fd: SD_LISTEN_FDS_START }, () => {
